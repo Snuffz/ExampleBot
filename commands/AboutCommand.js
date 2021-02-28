@@ -37,7 +37,7 @@ class AboutCommand extends Command
   {
 this.client.reply(new MessageEmbed()
 .setAuthor("All information about example bot", this.client.user.displayAvatarURL())
-.setDescription("This is an example bot made in [discord.js](https://discord.js.org/#/) of the repository\n" 
+.setDescription("This is an example bot made in [discord.js](https://discord.js.org/#/) of the repository [ExampleBot](https://github.com/Snuffz/ExampleBot)\n" 
 +"\n```diff\n+ Fun commands\n" 
 + "+ Bot with useful commands\n"
 + "+ Good examples"
