@@ -42,7 +42,7 @@ class CatCommand extends Command
       // if the information comes out correctly
   const hr = await axios.get("https://some-random-api.ml/img/cat");
   this.client.reply(new MessageEmbed()
-  .setColor(message.channel.type === "text" ? message.guild.me.roles.cache.filter(r=>r.color>0).sort((a,b) => a.position-b.position).map(r =>r.color).reverse()[0] : "GREEN")
+  .setColor(message.channel.type==="text" ? message.guild.me.roles.cache.filter(r=>r.color>0).sort((a,b) => a.position-b.position).map(r =>r.color).reverse()[0] : "GREEN")
   .setImage(hr.data.link), message)
   }
   // if you can't get the information from the api
