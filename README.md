@@ -56,7 +56,7 @@ There are many other great services, if you are interested here are some of them
 
 ![Example](https://s2.glbimg.com/ESbX4gH-ABR44P-6U0CYXtnJrIo=/0x0:695x338/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/A/O/ohZFerSzq1DBQi8J37qg/discordbot2.jpg)
 
-3- Copy the token and paste it into the [settings.js](https://github.com/Snuffz/ExampleBot/blob/main/settingsExample.js) folder.
+3- Copy the token and paste it into the config.js folder.
 
 ![Example](https://s2.glbimg.com/SpOVvAQ69xbZ5lrUnhrmMEAzoEE=/0x0:695x338/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/F/E/STsjVfSUazL8Asfhebuw/discordbot4.jpg)
 
