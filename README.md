@@ -39,6 +39,13 @@ Because it has few files and few functions it can be hosted on a cheap host.
 
 There are many other great services, if you are interested here are some of them: [Google Cloud](https://cloud.google.com/compute/all-pricing), [Amazon Web Services](https://aws.amazon.com/ec2/). Others little recommended but that also serve if you prefer is: [Heroku](https://dashboard.heroku.com/), [Glitch](https://glitch.com) and [Repl.it](https://repl.it/repls); However being frank it is more worth leaving the PC on 24-7.
 
+## Packages
+
+* [discord.js](https://www.npmjs.com/package/discord.js?source=post_page-----7b5fe27cb6fa----------------------)
+* [axios](https://www.npmjs.com/package/axios)
+* [klaw](https://www.npmjs.com/package/klaw)
+* [path](https://www.npmjs.com/package/path)
+
 ## Setup
 
 1- Go to the website [https://discord.com/developers/applications](https://discord.com/developers/applications) and click **New Application**. After enter the name of the application.
