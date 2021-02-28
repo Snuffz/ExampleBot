@@ -43,7 +43,7 @@ There are many other great services, if you are interested here are some of them
 
 1- Go to the website [https://discord.com/developers/applications](https://discord.com/developers/applications) and click **New Application**. After enter the name of the application.
 
-![Example](https://imagens.canaltech.com.br/307573.562805-Discord-Bot.png)
+![Example](https://cdn.discordapp.com/attachments/673134342398279700/815710574087241749/discord-new-application.png)
 
 2- Go to **Bot** and click **Add Bot**.
 
