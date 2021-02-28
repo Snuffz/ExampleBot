@@ -18,9 +18,10 @@
  *
  * @author Snuff (Snuff#8305)
  */
-
-class Command {
-    constructor (client, {
+class Command 
+{
+    constructor (client, 
+{
       name = null,
       description = null,
       usage = new String(),
@@ -29,7 +30,8 @@ class Command {
       botPermissions = new Array(),
       userPermissions = new Array(),
       ownerCommand = false
-    }) {
+    }) 
+    {
       this.client = client;
       this.conf = {  guildOnly, aliases, botPermissions, userPermissions, ownerCommand };
       this.help = { name, description, usage };
