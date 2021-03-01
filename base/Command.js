@@ -29,7 +29,7 @@ class Command
       aliases = new Array(),
       botPermissions = new Array(),
       userPermissions = new Array(),
-      ownerCommand = false
+      ownerCommand = new Boolean()
     }) 
     {
       this.client = client;
