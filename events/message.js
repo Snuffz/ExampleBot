@@ -50,6 +50,8 @@ module.exports = class
         const cmd = this.client.commands.get(command) || this.client.commands.get(this.client.aliases.get(command));
         if (!cmd)
          return;
+        
+        // blocks the owner’s commands if the author’s id is not the same
         if(message.author.id!==this.client.ownerId)
         return;
          if(message.guild)
