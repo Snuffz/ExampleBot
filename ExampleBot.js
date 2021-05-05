@@ -23,8 +23,10 @@ const path = require("path");
  * @author Snuff (Snuff#8305)
  */
 
-class Bot extends Client {
-  constructor (options) {
+class Bot extends Client 
+{
+  constructor (options) 
+  {
     super(options);
 
     // define the config.js folder
@@ -52,7 +54,7 @@ class Bot extends Client {
         const filter = m => m.author.id === msg.author.id;
 
         // try the method
-        await this.reply(question, msg);
+        await msg.channel.send(question, msg);
         try 
         {
             // start the method
@@ -64,53 +66,6 @@ class Bot extends Client {
           return false;
         }
       };
-
-      // catch the success, error and warning emojis
-      this.getEmojis = (status) => 
-      {
-    const emoji = {
-        SUCCESS: "\u2705",
-        ERROR: "\u274C",
-        WARNING: "\u26A0\uFE0F"
-    }
-    return emoji[status];
-      }
-
-   // a response function to use in commands
-    this.reply = (message, queue) => 
-    {
-   queue.channel.send(message);
-    }
-
-   // the same thing as the reply function but using a successful emoji
-    this.replySuccess = (message, queue) => 
-    {
-      this.reply(this.getEmojis("SUCCESS")+" "+message, queue);
-    }
-
-   // the same thing as the reply function but using an error emoji
-    this.replyError = (message, queue) => 
-    {
-  this.reply(this.getEmojis("ERROR")+" "+message, queue);
-    }
-
-   // the same thing as the reply function but using a warning emoji
-    this.replyWarning = (message, queue) => 
-    {
-      this.reply(this.getEmojis("WARNING")+" "+message, queue);
-    }
-
-   // makes the bot react to the message with an error emoji
-    this.reactError = (message) => 
-    {
-      message.react(this.getEmojis("ERROR"));
-    }
-
-   // makes the bot react to the message with an success emoji
-    this.reactSuccess = (message) => 
-    {
-      message.react(this.getEmojis("SUCCESS"));
-    }
   }
 
 // this function is used to load all commands
@@ -122,7 +77,7 @@ class Bot extends Client {
     {
 
         // it starts the folder using the proposed functions
-      const props = new (require(`${commandPath}${path.sep}${commandName}`))(this);
+      const props = new (require(commandPath+path.sep+commandName))(this);
       props.conf.location = commandPath;
 
       // if the function can be started, it starts
@@ -153,7 +108,7 @@ class Bot extends Client {
   }
 }
   
-  const client = new Bot();
+  const client = new Bot({ disableMentions: "everyone" });
    
   // here it creates a function to initiate all commands and events
   const build = async () => 
@@ -169,7 +124,7 @@ class Bot extends Client {
     return;
 
     // here it uses the loadCommand function to load the commands
-    const response = client.loadCommand(cmdFile.dir, `${cmdFile.name}${cmdFile.ext}`);
+    const response = client.loadCommand(cmdFile.dir, cmdFile.name+cmdFile.ext);
 
     // if there is an error it will return on the console
     if (response) 
@@ -187,7 +142,7 @@ class Bot extends Client {
     const eventName = file.split(".")[0];
 
     // starts the event using the client
-    const event = new (require(`./events/${file}`))(client);
+    const event = new (require("./events/"+file))(client);
 
     // start the event
     client.on(eventName, (...args) => event.run(...args));
