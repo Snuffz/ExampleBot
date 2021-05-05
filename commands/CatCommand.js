@@ -13,44 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const { MessageEmbed } = require("discord.js");
 const Command = require("../base/Command.js");
-const axios = require("axios");
 
 /**
  *
  * @author Snuff (Snuff#8305)
  */
-class CatCommand extends Command 
+module.exports = class ChooseCommand extends Command 
 {
   constructor (client) 
   {
     super(client, 
         {
-      name: "cat",
-      description: "shows a random cat",
-      guildOnly: false,
-      botPermissions: ["EMBED_LINKS"]
+      name: "choose",
+      help: "choose a random item",
+      usage: "<item1> <item2> <item3...>",
+      guildOnly: false
     });
   }
 
-  async run (message) 
+  async run (message, args) 
   {
-  // try to get the information from the api
-  try 
+      // checks if the message has no options
+  if(args.length==0)
   {
-      // if the information comes out correctly
-  const hr = await axios.get("https://some-random-api.ml/img/cat");
-  this.client.reply(new MessageEmbed()
-  .setColor(message.channel.type==="text" ? message.guild.me.displayColor||"" : "GREEN")
-  .setImage(hr.data.link), message)
+      message.channel.send("\u26A0\uFE0F You must provide me with choices!");
+      return;
   }
-  // if you can't get the information from the api
-  catch(e) 
-  {
-   this.client.reactError(message);
-  }
+else 
+{
+  // split the choices on all whitespace
+  const items = args.split(/\s+/);
+  
+    // if you have only one option provided
+    if(items.length==1)
+    message.channel.send("\u26A0\uFE0F You just gave me the option `"+items[0]+"`");
+
+    // takes a random response
+    else 
+    {
+       message.channel.send("\u2705 I choose `"+items[Math.floor(Math.random() * items.length)]+"`")
+      }
+}
   }
 }
-
-module.exports = CatCommand
