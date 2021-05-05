@@ -15,19 +15,20 @@
  */
 const { MessageEmbed } = require("discord.js");
 const Command = require("../base/Command.js");
+const features = Array("Fun commands", "Bot with useful commands", "Good examples");
 
 /**
  *
  * @author Snuff (Snuff#8305)
  */
-class AboutCommand extends Command 
+module.exports = class AboutCommand extends Command 
 {
   constructor (client) 
   {
     super(client, 
       {
       name: "about",
-      description: "shows information about the bot",
+      help: "shows information about the bot",
       guildOnly: false,
       botPermissions: ["ADMINISTRATOR"]
     });
@@ -35,14 +36,21 @@ class AboutCommand extends Command
 
   async run (message) 
   {
-this.client.reply(new MessageEmbed()
-.setAuthor("All information about example bot", this.client.user.displayAvatarURL())
-.setDescription("This is an example bot made in [discord.js](https://discord.js.org/#/) of the repository [ExampleBot](https://github.com/Snuffz/ExampleBot)\n" 
-+"\n```diff\n+ Fun commands\n" 
-+ "+ Bot with useful commands\n"
-+ "+ Good examples"
-+ "\n```"), message)
+const builder = new MessageEmbed();
+builder.setColor(message.channel.type=="text" ? message.guild.me.displayColor||null : null);
+builder.setAuthor("All information about " + this.client.user.username, this.client.user.displayAvatarURL());
+var descr = new String("This is an example bot made in [discord.js](https://discord.js.org/#/) of the repository [ExampleBot](https://github.com/Snuffz/ExampleBot)\n\n```css");
+for(const feature of features)
+            descr+="\n"+feature;
+descr+=" ```";
+builder.setDescription(descr);
+builder.addField("Stats", this.client.guilds.cache.size + " Servers\nShard " + (this.client.shard==null || message.channel.isText()===false ? "1" : message.guild.shard.id)
++ "/" + this.client.ws.totalShards, true);
+builder.addField("Users", this.client.users.cache.size + " Cached\n" + this.client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b)+" Total", true);
+builder.addField("Channels", this.client.channels.cache.filter(c => c.type=="text").size + " Text\n" + this.client.channels.cache.filter(c => c.type=="voice").size + " Voice", true);
+builder.setFooter("Last restart");
+builder.setTimestamp(Date.now()-this.client.uptime);
+message.channel.send(builder);
   }
-}
 
-module.exports = AboutCommand
+}
