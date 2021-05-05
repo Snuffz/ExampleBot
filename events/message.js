@@ -24,6 +24,7 @@ module.exports = class
     constructor (client) 
     {
       this.client = client;
+      this.prefix = "!!";
     }
     
     async run (message) 
@@ -37,52 +38,53 @@ module.exports = class
         return;
 
         // if it doesn't start with the prefix
-        if (message.content.indexOf("!!")!==0) 
+        if (!message.content.toLowerCase().startsWith(this.prefix.toLowerCase())) 
         return;
 
-        // takes all arguments after the prefix
-        const args = message.content.slice(2).trim().split(/ +/g);
+        const parts = splitOnPrefixLength(message.content, this.prefix.length);
 
         // get the command name
-        const command = args.shift().toLowerCase();
+        const name = parts[0];
+
+        // takes all arguments after the prefix
+        const args = parts[1]==null ? "" : parts.slice(1).join(" ");
 
         // takes the command object
-        const cmd = this.client.commands.get(command) || this.client.commands.get(this.client.aliases.get(command));
+        const cmd = this.client.commands.get(name.toLowerCase()) || this.client.commands.get(this.client.aliases.get(name.toLowerCase()));
+        console.log(args)
         if (!cmd)
          return;
-        
-        // blocks the owner’s commands if the author’s id is not the same
-        if(message.author.id!==this.client.ownerId)
+        if(cmd.conf.ownerCommand==true && message.author.id!==this.client.ownerId)
         return;
          if(message.guild)
          {
              // if you are in the guild and the bot does not have the permissions
          if(message.channel.permissionsFor(message.guild.me).missing(cmd.conf.botPermissions).length!=0)
          {
-            this.client.replyError(`I need ${cmd.conf.botPermissions.map(perm => formatPerms(perm)).join(", ")} permissions to use this.`, message);
+            message.channel.send("\u274C I need " + cmd.conf.botPermissions.map(perm => formatPerms(perm)).join(", ") + " permissions to use this.");
             return; 
          }
          else if(!message.guild.me.hasPermission(cmd.conf.botPermissions))
          {
-            this.client.replyError(`I need ${cmd.conf.botPermissions.map(perm => formatPerms(perm)).join(", ")} permissions to use this.`, message);
+            message.channel.send("\u274C I need " + cmd.conf.botPermissions.map(perm => formatPerms(perm)).join(", ") + " permissions to use this.");
             return;
          }
         // checks if the user has the permissions
         if(message.channel.permissionsFor(message.member).missing(cmd.conf.userPermissions).length!=0)
          {
-            this.client.replyError(`You need ${cmd.conf.userPermissions.map(perm => formatPerms(perm)).join(", ")} permissions to use this.`, message);
+            message.channel.send("\u274C You need " + cmd.conf.userPermissions.map(perm => formatPerms(perm)).join(", ") + " permissions to use this.");
             return; 
          }
          else if(!message.member.hasPermission(cmd.conf.userPermissions))
          {
-            this.client.replyError(`You need ${cmd.conf.userPermissions.map(perm => formatPerms(perm)).join(", ")} permissions to use this.`, message);
+            message.channel.send("\u274C You need " + cmd.conf.userPermissions.map(perm => formatPerms(perm)).join(", ") + " permissions to use this.");
             return;
          }
         }
         // if you are not in a guild but the command can only be used in a guild
          else if (cmd.conf.guildOnly) 
         {
-        this.client.replyError("This command cannot be used in Direct Messages.", message);
+        message.channel.send("\u274C This command cannot be used in Direct Messages.");
         return; 
         }
 
@@ -97,6 +99,11 @@ module.exports = class
             console.error(e);
         }
     }
+}
+
+function splitOnPrefixLength(content, length)
+{
+    return content.substring(length).trim().split(/\s+/);
 }
 
 function formatPerms (perms) 
