@@ -19,7 +19,7 @@ const Command = require("../base/Command.js");
  *
  * @author Snuff (Snuff#8305)
  */
-class PingCommand extends Command 
+module.exports = class PingCommand extends Command 
 {
   constructor (client) 
   {
@@ -32,15 +32,10 @@ class PingCommand extends Command
 
   async run (message) 
   {
-      // sends the pong message
-    const m = await message.channel.send("Pong!");
-
-    // subtracts the creation of the pong message from that of the author's message
-    const tLatency = m.createdTimestamp - message.createdTimestamp;
-
-    // sends the message along with the ping of the websocket
-    m.edit(`Ping: ${tLatency}ms\nWebSocket: ${Math.round(this.client.ws.ping)}ms`);
+    message.channel.send("Pong!").then(m => {
+      const ping = m.createdTimestamp - message.createdTimestamp;
+      m.edit("Ping: "+ping+"ms\nWebSocket: "+Math.round(this.client.ws.ping)+"ms");
+    });
   }
-}
 
-module.exports = PingCommand
+}
