@@ -21,20 +21,20 @@
 class Command 
 {
     constructor (client, 
-{
+      {
       name = null,
-      description = null,
+      help = null,
       usage = new String(),
       guildOnly = true,
       aliases = new Array(),
       botPermissions = new Array(),
       userPermissions = new Array(),
-      ownerCommand = new Boolean()
+      ownerCommand = false
     }) 
     {
       this.client = client;
       this.conf = {  guildOnly, aliases, botPermissions, userPermissions, ownerCommand };
-      this.help = { name, description, usage };
+      this.help = { name, help, usage };
     }
   }
   
