@@ -25,7 +25,7 @@ class ShutdownCommand extends Command
   {
     super(client, {
       name: "shutdown",
-      description: "safely shuts down",
+      help: "safely shuts down",
       guildOnly: false,
       ownerCommand: true
     });
@@ -33,10 +33,10 @@ class ShutdownCommand extends Command
 
   async run (message) 
   {
-this.client.replyWarning("Shutting down...", message);
+    await message.react("\u26A0\uFE0F");
 
-// closes the connection of the discord api with the bot and destroys the client
-this.client.destroy();
+    // closes the connection of the discord api with the bot and destroys the client
+    await this.client.destroy();
   }
 }
 
