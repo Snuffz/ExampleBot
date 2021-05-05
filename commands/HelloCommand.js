@@ -19,14 +19,14 @@ const Command = require("../base/Command.js");
  *
  * @author Snuff (Snuff#8305)
  */
-class HelloCommand extends Command 
+module.exports = class HelloCommand extends Command 
 {
   constructor (client) 
   {
     super(client, {
       name: "hello",
-      description: "say hello and wait for the answer",
-      aliases: ["hi","hey"]
+      aliases: ["hi","hey"],
+      help: "say hello and wait for the answer"
     });
   }
 
@@ -38,13 +38,11 @@ const e = await this.client.awaitReply(message, "Hello what is your name?", 6000
 // if a minute goes unanswered
 if(e === false)
 {
-this.client.reply("You took too long, time is up.", message);
+message.channel.send("You took too long, time is up.");
 return;
 }
 
 // the answer sent by the author, it will be sent after the event ends
-this.client.reply(`Hello \`${e}\`! Glad to meet you, i'm \`${this.client.user.username}\`!`, message);
+message.channel.send("Hello `"+e+"`! Glad to meet you, i'm `"+this.client.user.username+"`!");
   }
 }
-
-module.exports = HelloCommand
