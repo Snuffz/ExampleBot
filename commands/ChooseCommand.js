@@ -19,14 +19,14 @@ const Command = require("../base/Command.js");
  *
  * @author Snuff (Snuff#8305)
  */
-class ChooseCommand extends Command 
+module.exports = class ChooseCommand extends Command 
 {
   constructor (client) 
   {
     super(client, 
         {
       name: "choose",
-      description: "choose a random item",
+      help: "choose a random item",
       usage: "<item1> <item2> <item3...>",
       guildOnly: false
     });
@@ -37,23 +37,23 @@ class ChooseCommand extends Command
       // checks if the message has no options
   if(args.length==0)
   {
-      this.client.replyWarning("You must provide me with choices!", message);
+      message.channel.send("\u26A0\uFE0F You must provide me with choices!");
       return;
   }
 else 
 {
-
+  // split the choices on all whitespace
+  const items = args.split(/\s+/);
+  
     // if you have only one option provided
-if(args.length==1)
-    this.client.replyWarning(`You just gave me the option \`${args[0]}\``, message);
+    if(items.length==1)
+    message.channel.send("\u26A0\uFE0F You just gave me the option `"+items[0]+"`");
 
     // takes a random response
-   else 
-   {
-       this.client.replySuccess(`I choose \`${args[Math.floor(Math.random() * args.length)]}\``, message)
-   }
+    else 
+    {
+       message.channel.send("\u2705 I choose `"+items[Math.floor(Math.random() * items.length)]+"`")
+      }
 }
   }
 }
-
-module.exports = ChooseCommand
