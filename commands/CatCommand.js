@@ -13,47 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+const { MessageEmbed } = require("discord.js");
 const Command = require("../base/Command.js");
+const axios = require("axios");
 
 /**
  *
  * @author Snuff (Snuff#8305)
  */
-module.exports = class ChooseCommand extends Command 
+module.exports = class CatCommand extends Command 
 {
   constructor (client) 
   {
     super(client, 
         {
-      name: "choose",
-      help: "choose a random item",
-      usage: "<item1> <item2> <item3...>",
+      name: "cat",
+      help: "shows a random cat",
+      botPermissions: ["EMBED_LINKS"],
       guildOnly: false
     });
   }
 
-  async run (message, args) 
+  async run (message) 
   {
-      // checks if the message has no options
-  if(args.length==0)
+  // try to get the information from the api
+  try 
   {
-      message.channel.send("\u26A0\uFE0F You must provide me with choices!");
-      return;
+      // if the information comes out correctly
+  const hr = await axios.get("https://some-random-api.ml/img/cat");
+  message.channel.send(new MessageEmbed()
+  .setColor(message.channel.type=="text" ? message.guild.me.displayColor||null : "GREEN")
+  .setImage(hr.data.link))
   }
-else 
-{
-  // split the choices on all whitespace
-  const items = args.split(/\s+/);
-  
-    // if you have only one option provided
-    if(items.length==1)
-    message.channel.send("\u26A0\uFE0F You just gave me the option `"+items[0]+"`");
-
-    // takes a random response
-    else 
-    {
-       message.channel.send("\u2705 I choose `"+items[Math.floor(Math.random() * items.length)]+"`")
-      }
-}
+  // if you can't get the information from the api
+  catch(ue) 
+  {
+   message.react("\u274C")
+  }
   }
 }
